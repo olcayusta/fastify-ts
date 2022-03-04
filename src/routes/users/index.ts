@@ -7,7 +7,7 @@ interface IParams {
 
 export default async (app: FastifyInstance) => {
   app.get(
-    '/users',
+    '/',
     {
       schema: {
         response: {
@@ -36,16 +36,19 @@ export default async (app: FastifyInstance) => {
     }
   )
 
+  /**
+   * test comment
+   */
   app.get<{
     Params: IParams
   }>(
-    '/users/:userId',
+    '/:userId',
     {
       schema: {
         params: {
           type: 'object',
           properties: {
-            userId: { type: 'number' }
+            userId: { type: 'integer' }
           }
         }
       }
@@ -53,7 +56,7 @@ export default async (app: FastifyInstance) => {
     async ({ params }) => {
       const query = {
         text: `
-                    SELECT id, "displayName", picture, "signupDate", "githubUrl"
+                    SELECT id, "displayName", picture, "signupDate"
                     FROM "user"
                     WHERE id = $1
                 `,
